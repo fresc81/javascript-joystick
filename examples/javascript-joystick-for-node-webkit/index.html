@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Joystick Test</title>
+    <meta charset="utf-8">
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    
+  </head>
+  <body>
+    
+    <table style="width:750px">
+      <tr>
+        <th style="width:250px;text-align:center">X</th>
+        <td style="width:250px">
+          <div id="x" class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="65535" style="width:0%"></div>
+          </div>
+        </td>
+        <td style="width:250px;text-align:center">
+          <label id="lx"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">Y</th>
+        <td style="width:250px">
+          <div id="y" class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="65535" style="width:0%"></div>
+          </div>
+        </td>
+        <td style="width:250px;text-align:center">
+          <label id="ly"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">Z</th>
+        <td style="width:250px">
+          <div id="z" class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="65535" style="width:0%"></div>
+          </div>
+        </td>
+        <td style="width:250px;text-align:center">
+          <label id="lz"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">R</th>
+        <td style="width:250px">
+          <div id="r" class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="65535" style="width:0%"></div>
+          </div>
+        </td>
+        <td style="width:250px;text-align:center">
+          <label id="lr"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">U</th>
+        <td style="width:250px">
+          <div id="u" class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="65535" style="width:0%"></div>
+          </div>
+        </td>
+        <td style="width:250px;text-align:center">
+          <label id="lu"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">V</th>
+        <td style="width:250px">
+          <div id="v" class="progress progress-striped active">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="65535" style="width:0%"></div>
+          </div>
+        </td>
+        <td style="width:250px;text-align:center">
+          <label id="lv"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">Buttons</th>
+        <td style="width:250px;text-align:center" colspan="2">
+          <label id="buttons"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">Buttons A and B</th>
+        <td style="width:250px;text-align:center" colspan="2">
+          <label id="buttonsAAndB"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">Buttons A or B</th>
+        <td style="width:250px;text-align:center" colspan="2">
+          <label id="buttonsAOrB"></label>
+        </td>
+      </tr>
+      <tr>
+        <th style="width:250px;text-align:center">POV</th>
+        <td style="width:250px;text-align:center" colspan="2">
+          <label id="pov"></label>
+        </td>
+      </tr>
+    </table>
+    <script src="js/joystick.js"></script>
+    <script>
+      
+      $(function() {
+        
+        var joystick = new Joystick()
+          , $lx = $('#lx')
+          , $ly = $('#ly')
+          , $lz = $('#lz')
+          , $lr = $('#lr')
+          , $lu = $('#lu')
+          , $lv = $('#lv')
+          , $x = $('#x.progress .progress-bar')
+          , $y = $('#y.progress .progress-bar')
+          , $z = $('#z.progress .progress-bar')
+          , $r = $('#r.progress .progress-bar')
+          , $u = $('#u.progress .progress-bar')
+          , $v = $('#v.progress .progress-bar')
+          , $buttons = $('#buttons')
+          , $buttonsAAndB = $('#buttonsAAndB')
+          , $buttonsAOrB = $('#buttonsAOrB')
+          , $pov = $('#pov')
+          , bit = 1.0 / 65535.0
+          ;
+        
+        setInterval(function () {
+          
+          var x = joystick.getX()
+            , y = joystick.getY()
+            , z = joystick.getZ()
+            , r = joystick.getR()
+            , u = joystick.getU()
+            , v = joystick.getV()
+            , buttons = joystick.getButtons()
+            , buttonsAAndB = joystick.getButtonsAnd( 1|2 )
+            , buttonsAOrB = joystick.getButtonsOr( 1|2 )
+            , pov = joystick.getPOV()
+            ;
+          
+          $lx.html(x);
+          $x.attr('aria-valuenow', x);
+          $x.css('width', Math.round( x * bit * 100 ) + "%");
+          
+          $ly.html(y);
+          $y.attr('aria-valuenow', y);
+          $y.css('width', Math.round( y * bit * 100 ) + "%");
+          
+          $lz.html(z);
+          $z.attr('aria-valuenow', z);
+          $z.css('width', Math.round( z * bit * 100 ) + "%");
+          
+          $lr.html(r);
+          $r.attr('aria-valuenow', r);
+          $r.css('width', Math.round( r * bit * 100 ) + "%");
+          
+          $lu.html(u);
+          $u.attr('aria-valuenow', u);
+          $u.css('width', Math.round( u * bit * 100 ) + "%");
+          
+          $lv.html(v);
+          $v.attr('aria-valuenow', v);
+          $v.css('width', Math.round( v * bit * 100 ) + "%");
+          
+          $buttons.html('0x' + buttons.toString(16));
+          
+          $buttonsAAndB.html(buttonsAAndB?'true':'false');
+          
+          $buttonsAOrB.html(buttonsAOrB?'true':'false');
+          
+          $pov.html(pov==65535?'':pov/100);
+          
+        }, 25);
+      });
+      
+    </script>
+  </body>
+</html>

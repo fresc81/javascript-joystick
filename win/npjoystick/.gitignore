@@ -1,3 +1,6 @@
 /x64
 /Debug
 /Release
+/Win32
+/npjoystick.vcxproj.user
+/nprt.aps

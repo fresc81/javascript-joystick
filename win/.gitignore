@@ -2,6 +2,8 @@
 /Debug
 /Release
 /x64
+/Win32
 /jsjoystick.sdf
 /UpgradeLog.htm
 /jsjoystick.opensdf
+/.vs
